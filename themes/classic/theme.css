@@ -1,0 +1,301 @@
+/*
+ * Classic: BigBlueButton 4.0 with the look of 3.0. The navy stage of 3.0, a
+ * flush light gray bar on the left and a flush white panel beside it instead
+ * of the floating bar and card, square corners on the presentation, and the
+ * round white and blue buttons with the client's own icons and font.
+ *
+ * Unlike the other themes it does not load shared/base.css ("base": false in
+ * theme.json). It starts from the client's own look, which 4.0 mostly kept
+ * from 3.0 (font, icons, buttons, chat, cameras, menus), and only turns back
+ * what 4.0 changed. The values come from the 3.0.x client source.
+ */
+
+:root {
+  /* The 3.0 palette, through the client's own variables (4.0 values in brackets) */
+  --color-background: #06172A; /* stage, top bar, action bar (#102133) */
+  --color-border: #7E8C99; /* separators, field borders (#B8C9D8) */
+  --list-item-bg-hover: #DCE4ED; /* hover in lists and menus (#E5EFFB) */
+  --toolbar-button-border-color: #7E8C99; /* (#A7B3BD) */
+  --notification-badge-bg: #DF2721; /* unread badge (#FF3939) */
+  --btn-recording-active-bg: #AE1010; /* recording: a solid dark red pill */
+  --btn-recording-active-border: #AE1010;
+  --color-overlay: rgba(6, 23, 42, .75); /* behind modals */
+
+  /* Colors of this theme, from the 3.0 palette */
+  --classic-bar: #F3F6F9; /* the 3.0 user list */
+  --classic-gray: #4E5A66;
+  --classic-gray-lightest: #D4D9DF;
+  --classic-hover: #DCE4ED;
+  --classic-heading: #06172A;
+  --classic-primary: #0F70D7;
+}
+
+body {
+  background-color: #06172A;
+}
+
+#layout {
+  padding-top: 0 !important;
+}
+
+/* ---------- Left bar: flush, full height, in the color of the 3.0 user list ---------- */
+
+/* 4.0 draws a white bar with 48px corners on a 1vw margin of stage color */
+.bbb-navigation {
+  padding: 0 !important;
+  background: var(--classic-bar) !important;
+}
+
+/* No padding on the bar: on phones the closed bar has zero height */
+.bbb-navigation__bar {
+  height: 100% !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: var(--classic-bar) !important;
+  box-shadow: none !important;
+}
+
+/*
+ * The list fades at the top and bottom when it scrolls, with white gradients
+ * made for the white bar: redrawn in the bar color.
+ */
+.bbb-navigation__list {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  box-sizing: border-box;
+  border-radius: 0 !important;
+  background-image:
+    linear-gradient(var(--classic-bar) 30%, transparent),
+    linear-gradient(transparent, var(--classic-bar) 70%),
+    radial-gradient(farthest-side at 50% 0, rgba(6, 23, 42, .12), transparent),
+    radial-gradient(farthest-side at 50% 100%, rgba(6, 23, 42, .12), transparent) !important;
+}
+
+/*
+ * Items: the 3.0 list items (5px corners, #DCE4ED on hover) instead of
+ * circles. The icons in the 3.0 gray, darker than the 4.0 #909CAF, which was
+ * too faint on the gray bar. The open item stays blue with a white icon.
+ */
+.bbb-navigation__item {
+  border-radius: 5px !important;
+}
+
+/* Disabled and locked items keep the client's faint gray */
+.bbb-navigation__item:not(.bbb-navigation__item--active, .bbb-navigation__item--disabled, .bbb-navigation__item--locked) i {
+  color: var(--classic-gray) !important;
+}
+
+.bbb-navigation__item:not(.bbb-navigation__item--active):hover {
+  background-color: var(--classic-hover) !important;
+}
+
+/* ---------- Side panel: flush, full height, white ---------- */
+
+/* 4.0 draws the panel as a card with 1rem corners, 4vh above and below */
+.bbb-sidebar-content {
+  padding: 0 !important;
+  background: #fff !important;
+}
+
+.bbb-sidebar-content__panel {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+}
+
+.bbb-sidebar-content__panel,
+.bbb-sidebar-content__panel > div {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/*
+ * Second panel (multiFunctionalMode): a floating card in 4.0, flush here too,
+ * with a line between the two. The bbb-sidebar-content-auxiliary classes come
+ * from bigbluebutton/bigbluebutton#26415; data-test covers earlier versions.
+ */
+:is(.bbb-sidebar-content-auxiliary, div:has(> [data-test="sidebarContentAuxiliary"])) {
+  padding: 0 !important;
+  background: #fff !important;
+  box-sizing: border-box !important;
+  border-left: 1px solid var(--classic-gray-lightest);
+}
+
+:is(.bbb-sidebar-content-auxiliary__panel, [data-test="sidebarContentAuxiliary"]) {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+}
+
+:is(.bbb-sidebar-content-auxiliary__panel, [data-test="sidebarContentAuxiliary"]),
+:is(.bbb-sidebar-content-auxiliary__panel, [data-test="sidebarContentAuxiliary"]) > div {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/*
+ * Panel titles: "Public Chat" in regular case, as in 3.0, with no line under
+ * the header. The user list keeps its small uppercase "USERS (n)", the 3.0
+ * section title.
+ */
+.bbb-panel-header + hr {
+  display: none !important;
+}
+
+.bbb-panel-header__title {
+  text-transform: none !important;
+}
+
+.bbb-sidebar-content--userlist .bbb-panel-header__title {
+  text-transform: uppercase !important;
+  font-size: .85rem !important;
+}
+
+/* Close the panel with an x, not a minus */
+.bbb-panel-header .icon-bbb-minus::before {
+  content: "\e912" !important;
+}
+
+/* ---------- User list ---------- */
+
+/* Rows light up on hover with 5px corners */
+:is(.bbb-user-list-item, .bbb-raised-hands__item, [data-test="raisedHandsListItem"]) {
+  border-radius: 5px !important;
+}
+
+:is(.bbb-user-list-item, .bbb-raised-hands__item, [data-test="raisedHandsListItem"]):hover {
+  background-color: var(--classic-hover) !important;
+}
+
+/* Names in regular weight, also your own (4.0 sets it in bold) */
+.bbb-user-list-item__name,
+.bbb-user-list-item__name * {
+  font-weight: 400 !important;
+  color: var(--classic-heading) !important;
+}
+
+/* The line under the name in the 3.0 gray: #909CAF was too faint on white */
+[data-test="userNameSubs"],
+[data-test="userNameSubs"] * {
+  color: var(--classic-gray) !important;
+}
+
+/*
+ * Presenter: the 3.0 badge, a blue square with the presentation icon on the
+ * top left of the avatar. The avatar's own ::before is a hidden status dot in
+ * 4.0; its styles (zero size, border) are reset here.
+ */
+.bbb-user-list-item > .bbb-avatar--presenter::before {
+  content: "\e90b" !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: absolute !important;
+  top: -5px !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: -5px !important;
+  z-index: 2 !important;
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  border: 1.5px solid #fff !important;
+  border-radius: 5px !important;
+  opacity: 1 !important;
+  background: var(--classic-primary) !important;
+  color: #fff !important;
+  font-family: "bbb-icons" !important;
+  font-size: 9px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  pointer-events: none;
+}
+
+[dir="rtl"] .bbb-user-list-item > .bbb-avatar--presenter::before {
+  right: -5px !important;
+  left: auto !important;
+}
+
+/* ---------- Top bar ---------- */
+
+/* "Start recording": a white outline, as in 3.0, instead of a 10% white fill */
+.bbb-recording-indicator:not(.bbb-recording-indicator--recording) button {
+  border: 1px solid #fff !important;
+  background: transparent !important;
+}
+
+.bbb-recording-indicator--recording button {
+  border-radius: 10px !important;
+}
+
+/* ---------- Action bar ---------- */
+
+/* White buttons stay white under the pointer, as in 3.0 (4.0 tints them blue) */
+.bbb-actions-bar .bbb-button--default:hover > .bbb-button__icon {
+  background-color: #fff !important;
+  color: var(--classic-gray) !important;
+}
+
+/*
+ * Media area and presentation: 4.0 joins them in one white capsule. Here each
+ * is its own round button, like every other button of the bar.
+ */
+.bbb-actions-bar__media-buttons {
+  gap: .75rem !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* The presentation button is blue while the presentation is open, as in 3.0 */
+.bbb-actions-bar [data-test="minimizePresentation"] .bbb-button__icon {
+  border-color: var(--classic-primary) !important;
+  background-color: var(--classic-primary) !important;
+  color: #fff !important;
+}
+
+.bbb-actions-bar [data-test="minimizePresentation"] .bbb-button__icon i {
+  color: #fff !important;
+}
+
+/* ---------- Presentation: square corners, the 3.0 toolbar ---------- */
+
+.bbb-presentation__content,
+.bbb-presentation__content .tl-container,
+#whiteboard-element > div:first-child {
+  border-radius: 0 !important;
+}
+
+.bbb-presentation-toolbar {
+  border-top: 1px solid var(--color-border) !important;
+  border-radius: 0 !important;
+  background-color: var(--classic-bar) !important;
+}
+
+/* ---------- Chat ---------- */
+
+/* The message field: the 3.0 gray border, blue when it has the focus */
+.bbb-chat-form__input {
+  border: 1px solid var(--color-border) !important;
+}
+
+.bbb-chat-form__input:focus-within {
+  border-color: var(--classic-primary) !important;
+  box-shadow: 0 0 0 1px var(--classic-primary) !important;
+}
+
+/* ---------- Modals ---------- */
+
+/* Small corners and titles in regular case, as in 3.0 */
+.ReactModal__Content {
+  border-radius: .2rem !important;
+}
+
+.ReactModal__Content > :is(div, header):first-child > :is(p, h1, h2, h3):first-child:not(:only-child) {
+  text-transform: none !important;
+  font-weight: 500 !important;
+  color: var(--classic-heading) !important;
+}

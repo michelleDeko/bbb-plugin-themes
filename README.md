@@ -1,6 +1,6 @@
 # BigBlueButton themes
 
-One plugin for the BigBlueButton 4.0 HTML5 client with seven themes and a theme picker, so every participant can choose their own look. Each theme changes colours, shapes, fonts and the background, and keeps the same layout fixes:
+One plugin for the BigBlueButton 4.0 HTML5 client with eight themes and a theme picker, so every participant can choose their own look. Each theme changes colours, shapes, fonts and the background. All but [Classic](#classic), which brings back the look of BigBlueButton 3.0, share the same layout fixes:
 
 - full-height icon bar and sidebar, including the second panel of the multi-functional mode (`multiFunctionalMode`)
 - [Lucide](https://lucide.dev) icons
@@ -8,9 +8,9 @@ One plugin for the BigBlueButton 4.0 HTML5 client with seven themes and a theme 
 - cameras that fill their tile, with a green ring on whoever speaks
 - a keyboard focus ring, and reduced motion when the system asks for it
 
-The themes are pure CSS and share one base derived from [bbb-plugin-flat-theme](https://github.com/gustavotrott/bbb-plugin-flat-theme). They come two ways:
+The themes are pure CSS, and all but Classic share one base derived from [bbb-plugin-flat-theme](https://github.com/gustavotrott/bbb-plugin-flat-theme). They come two ways:
 
-- **As a plugin** (`pluginManifests`), the default: all seven themes and a [theme picker](#the-theme-picker) in the client.
+- **As a plugin** (`pluginManifests`), the default: all eight themes and a [theme picker](#the-theme-picker) in the client.
 - **As a plain stylesheet** (`customStyleUrl`): one static `theme.css` per theme, with the icons and backgrounds inlined, if you would rather not run a plugin. See [Use a theme as a custom style](#use-a-theme-as-a-custom-style-css-only).
 
 > **The plugin requires BigBlueButton 4.0.1 or later** (the static `bbb-*` classes). For 4.0.0, use a theme as a [custom style](#use-a-theme-as-a-custom-style-css-only).
@@ -48,7 +48,7 @@ pluginManifests=[{"url":"https://gustavotrott.github.io/bbb-plugin-themes/manife
 
 Then pick a theme from the options menu in the meeting. You can try it from [API Mate](https://mconf.github.io/api-mate/) or your own integration (Moodle, Greenlight, Scalelite...).
 
-The BigBlueButton server reads the manifest when the meeting is created, so it must reach `github.io`. The participants' browsers load the plugin from there too. The [settings](#settings) come from the server, so without them the meeting starts in the plain BigBlueButton look and the picker offers all seven themes. If the server already loads one of the theme plugins from 0.6.x or earlier, both run in the meeting; see [Upgrading from 0.6.x or earlier](#upgrading-from-06x-or-earlier).
+The BigBlueButton server reads the manifest when the meeting is created, so it must reach `github.io`. The participants' browsers load the plugin from there too. The [settings](#settings) come from the server, so without them the meeting starts in the plain BigBlueButton look and the picker offers all eight themes. If the server already loads one of the theme plugins from 0.6.x or earlier, both run in the meeting; see [Upgrading from 0.6.x or earlier](#upgrading-from-06x-or-earlier).
 
 ## Install on your server
 
@@ -95,7 +95,7 @@ public:
 
 | Setting | Default | What it does |
 |---|---|---|
-| `defaultTheme` | `none` | The theme for everyone who has not picked one: a theme id (`cozy`, `kids`, `light`, `midnight`, `synthwave`, `moodle`, `school`) or `none` for the plain BigBlueButton look. |
+| `defaultTheme` | `none` | The theme for everyone who has not picked one: a theme id (`cozy`, `kids`, `light`, `midnight`, `synthwave`, `moodle`, `school`, `classic`) or `none` for the plain BigBlueButton look. |
 | `themes` | all | The themes offered in the picker, as comma-separated ids. A YAML list works too. The `defaultTheme` is always offered. Unknown ids are skipped, with a warning in the browser console; if none is known, all themes are offered. |
 | `allowUserChoice` | `true` | `false` hides the picker, and everyone gets `defaultTheme`. |
 
@@ -281,6 +281,25 @@ Id: `school`
 
 Stylesheet: `https://gustavotrott.github.io/bbb-plugin-themes/school/<4.0.0|4.0.1|4.0.3>/theme.css`
 
+### Classic
+
+The look of BigBlueButton 3.0 on the 4.0 client, for users who know it and would rather keep it.
+
+- The navy stage of 3.0 (#06172A, 4.0 has a lighter #102133).
+- The icon bar and the side panel flush and full height, the bar in the light gray of the 3.0 user list and the panel in white, instead of a floating bar and card with round corners.
+- The client's own icons, font and round white and blue buttons. The media area and presentation buttons are two round buttons instead of one white capsule, and the presentation button is blue while the presentation is open.
+- Square corners on the presentation, with the light gray 3.0 toolbar.
+- The 3.0 presenter badge on the avatar, panel titles in regular case, an x to close the panel, a white outline on "Start recording".
+- No shared base (`"base": false` in its `theme.json`), so none of the layout fixes listed at the top: it only turns back what 4.0 changed, mostly through the client's own colour variables (`--color-background` and others).
+
+Some of 3.0 does not come back with CSS alone: the user list with its Messages and Notes sections (4.0 has the icon bar instead), the user list button in the top bar, the "+" actions button, and a colour per user on the avatars (4.0 colours them by role).
+
+**Best for:** Moving to 4.0 while keeping the look users know from 3.0.
+
+Id: `classic`
+
+Stylesheet: `https://gustavotrott.github.io/bbb-plugin-themes/classic/theme.css` (BigBlueButton 4.0.1 or later)
+
 ## Build from source
 
 ```bash
@@ -300,10 +319,10 @@ node scripts/site.js               # the GitHub Pages site, into site/ (after bu
 | `src/` | The plugin: applies the theme, adds the theme picker and pauses the client's dark mode while a theme is active |
 | `docs/` | Images for this README |
 | `manifest.json` | Plugin manifest |
-| `shared/base.css` | Shared base (layout, icons, accessibility), with every colour and corner as a `--theme-*` variable |
+| `shared/base.css` | Shared base (layout, icons, accessibility), with every colour and corner as a `--theme-*` variable. Every theme but Classic loads it |
 | `shared/dark.css` | Dark panels, menus, modals and notifications (themes with `"dark": true`: Midnight and Synthwave) |
 | `shared/icons/` | Lucide icons, inlined into the bundle |
-| `themes/<id>/theme.json` | Name, picker colours, `dark`, and the description in each language. The folder name is the theme id |
+| `themes/<id>/theme.json` | Name, picker colours, `dark`, `base` (`false` leaves out `shared/base.css`), and the description in each language. The folder name is the theme id |
 | `themes/<id>/theme.css` | The theme: palette (`:root` variables) and its own look |
 | `themes/<id>/scene.svg` | Background illustration (Cozy, Kids, Synthwave). Replace it with any image and rebuild |
 | `versions/<id>/<version>/` | Stylesheets frozen for older BigBlueButton versions |

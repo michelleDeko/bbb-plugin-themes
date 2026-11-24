@@ -13,16 +13,18 @@ export interface Theme {
   id: string;
   name: string;
   dark: boolean;
+  // false: the theme starts from the client's own look, without shared/base.css
+  base?: boolean;
   colors: ThemeColors;
   description: Record<string, string>;
-  // Stylesheets in cascade order: shared base, shared dark panels (dark themes), the theme
+  // Stylesheets in cascade order: shared base (unless base is false), shared dark panels (dark themes), the theme
   sheets: string[];
 }
 
 // The plain BigBlueButton look, without any theme stylesheet
 export const NONE = 'none';
 export const NONE_COLORS: ThemeColors = {
-  background: '#06172A',
+  background: '#102133',
   nav: '#FFFFFF',
   primary: '#0F70D7',
   panel: '#FFFFFF',
@@ -41,7 +43,8 @@ export const THEMES: Theme[] = metadata.keys()
     const id = folder(key);
     const meta = metadata(key) as Omit<Theme, 'id' | 'sheets'>;
     const css = (stylesheets(cssKeys.get(id)) as { default: string }).default;
-    return { ...meta, id, sheets: meta.dark ? [baseCss, darkCss, css] : [baseCss, css] };
+    const sheets = [...(meta.base === false ? [] : [baseCss]), ...(meta.dark ? [darkCss] : []), css];
+    return { ...meta, id, sheets };
   })
   .sort((a, b) => a.id.localeCompare(b.id));
 

@@ -1,9 +1,9 @@
 // Builds each theme as one static stylesheet for BigBlueButton's custom style
 // URL (public.app.customStyleUrl in settings.yml, or userdata-bbb_custom_style_url
 // on /join). A theme is a folder in themes/ with a theme.json; its stylesheets,
-// in order, are shared/base.css, shared/dark.css (if "dark" is true) and its
-// own theme.css. They are joined into one file, local images become data URIs
-// and @import rules move to the top.
+// in order, are shared/base.css (unless "base" is false), shared/dark.css (if
+// "dark" is true) and its own theme.css. They are joined into one file, local
+// images become data URIs and @import rules move to the top.
 //
 //   node scripts/css.js [cozy,kids]    dist/<theme>/theme.css, for the newest BigBlueButton,
 //                                      plus the frozen stylesheets for older versions,
@@ -50,9 +50,9 @@ function inline(file) {
 function sheets(theme) {
   const dir = path.join(root, 'themes', theme);
   if (has(theme, 'theme.json')) {
-    const { dark } = JSON.parse(fs.readFileSync(path.join(dir, 'theme.json'), 'utf8'));
+    const { dark, base } = JSON.parse(fs.readFileSync(path.join(dir, 'theme.json'), 'utf8'));
     return [
-      path.join(root, 'shared', 'base.css'),
+      ...(base === false ? [] : [path.join(root, 'shared', 'base.css')]),
       ...(dark ? [path.join(root, 'shared', 'dark.css')] : []),
       path.join(dir, 'theme.css'),
     ];

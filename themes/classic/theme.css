@@ -124,6 +124,56 @@ body {
 }
 
 /*
+ * The bar fits the window instead of scrolling. Without its 2vw margins it is
+ * wider than in 4.0, and the client's square items (65% of the bar) grew with
+ * it: 62px each at 2048px, a list taller than the window. Here they are at
+ * most 44px wide and give up height, down to 30px, on short windows. The
+ * groups sit together at the top, the last one (dashboard, settings) at the
+ * bottom. Plugins add items, so the list may still scroll as a last resort,
+ * without a scrollbar.
+ */
+@media (pointer: fine) and (min-width: 768px) {
+  .bbb-navigation__list {
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    scrollbar-width: none;
+  }
+
+  .bbb-navigation__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* The groups only hold their items: every item is in the list itself and
+     can share its height. Items shrink before the list scrolls, without
+     overlapping the next group. */
+  .bbb-navigation__list > div {
+    display: contents;
+  }
+
+  .bbb-navigation__list > hr:last-of-type {
+    margin-top: auto !important;
+  }
+
+  .bbb-navigation__separator {
+    margin-block: 6px !important;
+  }
+
+  .bbb-navigation__item {
+    flex: 0 1 44px;
+    width: min(44px, 100cqw - 16px) !important;
+    height: auto !important;
+    min-height: 30px;
+    aspect-ratio: auto !important;
+    margin: 2px auto !important;
+  }
+
+  /* The users item holds the count under its icon */
+  .bbb-navigation__item:has(> div) {
+    min-height: 40px;
+  }
+}
+
+/*
  * The 3.0 list is about 240px wide, and the client fixes the bar at 60px +
  * 2vw. On large screens with a panel open, the bar grows by up to 120px and
  * the panel gives up the same width on its left: its content moves right,
@@ -148,18 +198,9 @@ body {
  * in the client's language.
  */
 @container (min-width: 150px) {
-  .bbb-navigation__list {
-    justify-content: flex-start !important;
-    gap: 10px !important;
-  }
-
-  .bbb-navigation__list > div {
-    align-items: stretch !important;
-    gap: 2px !important;
-  }
-
-  .bbb-navigation__list > div:last-child {
-    margin-top: auto;
+  .bbb-navigation__item,
+  .bbb-navigation__item:has(> div) {
+    min-height: 28px;
   }
 
   .bbb-navigation__item {
@@ -167,12 +208,13 @@ body {
     justify-content: flex-start !important;
     align-items: center !important;
     gap: 10px;
+    flex: 0 1 36px;
     width: auto !important;
-    height: 36px !important;
-    min-height: 36px;
+    height: auto !important;
+    min-height: 28px;
     aspect-ratio: auto !important;
     align-self: stretch !important;
-    margin: 0 8px !important;
+    margin: 1px 8px !important;
     padding: 0 10px !important;
     box-sizing: border-box !important;
   }
@@ -220,14 +262,6 @@ body {
   background: var(--classic-panel) !important;
 }
 
-/* The width the wide list takes, see above */
-@media (pointer: fine) and (min-width: 1500px) {
-  .bbb-sidebar-content {
-    box-sizing: border-box !important;
-    padding-left: var(--classic-list-extra, 0px) !important;
-  }
-}
-
 .bbb-sidebar-content__panel {
   width: 100% !important;
   height: 100% !important;
@@ -238,6 +272,18 @@ body {
 .bbb-sidebar-content__panel > div {
   border-radius: 0 !important;
   box-shadow: none !important;
+}
+
+/*
+ * The width the wide list takes, see above. The panel is positioned
+ * absolutely inside its box, so it moves right by that width and gets as much
+ * narrower; its right edge stays at the presentation.
+ */
+@media (pointer: fine) and (min-width: 1500px) {
+  .bbb-sidebar-content__panel {
+    left: var(--classic-list-extra, 0px) !important;
+    width: calc(100% - var(--classic-list-extra, 0px)) !important;
+  }
 }
 
 /* The user list in the color of the list beside it: one gray column, as in 3.0.

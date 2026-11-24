@@ -296,7 +296,7 @@ The look of BigBlueButton 3.0 on the 4.0 client, for users who know it and would
 - No shared base (`"base": false` in its `theme.json`), so none of the layout fixes listed at the top: it only turns back what 4.0 changed, through the client's own colour variables (`--color-background`, `--user-list-bg` and others).
 - On BigBlueButton 4.1, whose dark mode is native, it follows the dark mode (`"followsDarkMode": true`): the same layout in the client's dark colours. With the DarkReader dark mode of 4.0 it pauses it like the other light themes.
 
-The client fixes the width of the icon bar at 60px + 2% of the window, so the list grows into the open panel: on screens 1500px wide or more, with a panel open, the bar grows by up to 120px and the panel's content moves right by as much (the panel keeps about 260px at 1920px; drag its edge to widen it). On smaller screens, and with every panel closed, the list is a column of icons.
+The client fixes the width of the icon bar at 60px + 2% of the window, so the list grows into the open panel: on screens 1500px wide or more, with a panel open, the bar grows by up to 120px and the panel's content moves right by as much (the panel keeps about 260px at 1920px; drag its edge to widen it). On smaller screens, and with every panel closed, the list is a column of icons. Either way it fits the window height: the rows and icons get smaller on short screens instead of scrolling.
 
 Some of 3.0 does not come back with CSS alone: the user list button in the top bar, the "+" actions button, and the Messages and Notes rows above the user list in one panel (the user list is a panel of its own in 4.0).
 

@@ -15,6 +15,9 @@ export interface Theme {
   dark: boolean;
   // false: the theme starts from the client's own look, without shared/base.css
   base?: boolean;
+  // true: the theme has no light-only colors and follows the client's native dark
+  // mode (BigBlueButton 4.1). The DarkReader dark mode of 4.0 still pauses.
+  followsDarkMode?: boolean;
   colors: ThemeColors;
   description: Record<string, string>;
   // Stylesheets in cascade order: shared base (unless base is false), shared dark panels (dark themes), the theme

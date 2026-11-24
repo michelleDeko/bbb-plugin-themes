@@ -2,6 +2,7 @@
   "name": "Classic",
   "dark": false,
   "base": false,
+  "followsDarkMode": true,
   "colors": {
     "background": "#06172A",
     "nav": "#F3F6F9",
@@ -10,10 +11,10 @@
     "text": "#4E5A66"
   },
   "description": {
-    "en": "The look of BigBlueButton 3.0: navy stage, light gray side bar, round white and blue buttons.",
-    "de": "Das Aussehen von BigBlueButton 3.0: dunkelblaue Bühne, hellgraue Seitenleiste, runde weiße und blaue Schaltflächen.",
-    "es": "El aspecto de BigBlueButton 3.0: escenario azul marino, barra lateral gris claro y botones redondos blancos y azules.",
-    "fr": "L'apparence de BigBlueButton 3.0 : scène bleu marine, barre latérale gris clair, boutons ronds blancs et bleus.",
-    "pt-BR": "A aparência do BigBlueButton 3.0: palco azul-marinho, barra lateral cinza-clara e botões redondos brancos e azuis."
+    "en": "The look of BigBlueButton 3.0: navy stage, a light gray list on the left, round white and blue buttons.",
+    "de": "Das Aussehen von BigBlueButton 3.0: dunkelblaue Bühne, hellgraue Liste links, runde weiße und blaue Schaltflächen.",
+    "es": "El aspecto de BigBlueButton 3.0: escenario azul marino, una lista gris claro a la izquierda y botones redondos blancos y azules.",
+    "fr": "L'apparence de BigBlueButton 3.0 : scène bleu marine, liste gris clair à gauche, boutons ronds blancs et bleus.",
+    "pt-BR": "A aparência do BigBlueButton 3.0: palco azul-marinho, uma lista cinza-clara à esquerda e botões redondos brancos e azuis."
   }
 }

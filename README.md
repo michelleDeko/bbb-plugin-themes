@@ -36,6 +36,8 @@ Who sees what: a user who picked a theme sees that one, as long as the server st
 
 **Dark mode.** BigBlueButton's own dark mode (Settings, "Dark mode") restyles the whole page, and so does a theme, so the two don't mix: while a theme is active, the dark mode is paused, and the dialog says so. "BigBlueButton default" shows the dark mode again. Turning the dark mode on while a light theme is active switches to "BigBlueButton default" (and saves that choice), so the dark mode shows. Midnight and Synthwave stay, since they are dark already, and so does every theme when `allowUserChoice` is `false`. The plugin never changes the dark mode setting itself.
 
+BigBlueButton 4.1 draws its dark mode natively, by switching the client's colour variables (`data-theme="dark"` on the page), and the plugin cannot pause that one. [Classic](#classic) is made for it: it reads those variables, so it follows the dark mode and stays when the dark mode is turned on.
+
 A few parts of the client switch to their dark variant on their own, without the dark mode's stylesheets, so they stay dark while a theme pauses the dark mode: the custom logo (when the server has a separate dark logo), the emoji picker in the chat and the reactions, a few labels and icons, and on phones the colour of the browser bar.
 
 ## Try it without installing
@@ -286,13 +288,16 @@ Stylesheet: `https://gustavotrott.github.io/bbb-plugin-themes/school/<4.0.0|4.0.
 The look of BigBlueButton 3.0 on the 4.0 client, for users who know it and would rather keep it.
 
 - The navy stage of 3.0 (#06172A, 4.0 has a lighter #102133).
-- The icon bar and the side panel flush and full height, the bar in the light gray of the 3.0 user list and the panel in white, instead of a floating bar and card with round corners.
-- The client's own icons, font and round white and blue buttons. The media area and presentation buttons are two round buttons instead of one white capsule, and the presentation button is blue while the presentation is open.
+- A flush, full-height list on the left in the light gray of the 3.0 user list, with a row per tool ("Messages", "Shared Notes", "Participants"...), and a flush panel beside it, instead of the floating icon bar and card with round corners. The user list panel takes the gray of the list, so the two read as one column, as in 3.0.
+- The client's own icons, font and round white and blue buttons. The media area and presentation buttons are two round buttons instead of one capsule, and the presentation button is blue while the presentation is open.
 - Square corners on the presentation, with the light gray 3.0 toolbar.
 - The 3.0 presenter badge on the avatar, panel titles in regular case, an x to close the panel, a white outline on "Start recording".
-- No shared base (`"base": false` in its `theme.json`), so none of the layout fixes listed at the top: it only turns back what 4.0 changed, mostly through the client's own colour variables (`--color-background` and others).
+- No shared base (`"base": false` in its `theme.json`), so none of the layout fixes listed at the top: it only turns back what 4.0 changed, through the client's own colour variables (`--color-background`, `--user-list-bg` and others).
+- On BigBlueButton 4.1, whose dark mode is native, it follows the dark mode (`"followsDarkMode": true`): the same layout in the client's dark colours. With the DarkReader dark mode of 4.0 it pauses it like the other light themes.
 
-Some of 3.0 does not come back with CSS alone: the user list with its Messages and Notes sections (4.0 has the icon bar instead), the user list button in the top bar, the "+" actions button, and a colour per user on the avatars (4.0 colours them by role).
+The client fixes the width of the icon bar at 60px + 2% of the window, so the list grows into the open panel: on screens 1500px wide or more, with a panel open, the bar grows by up to 120px and the panel's content moves right by as much (the panel keeps about 260px at 1920px; drag its edge to widen it). On smaller screens, and with every panel closed, the list is a column of icons.
+
+Some of 3.0 does not come back with CSS alone: the user list button in the top bar, the "+" actions button, and the Messages and Notes rows above the user list in one panel (the user list is a panel of its own in 4.0).
 
 **Best for:** Moving to 4.0 while keeping the look users know from 3.0.
 
@@ -322,7 +327,7 @@ node scripts/site.js               # the GitHub Pages site, into site/ (after bu
 | `shared/base.css` | Shared base (layout, icons, accessibility), with every colour and corner as a `--theme-*` variable. Every theme but Classic loads it |
 | `shared/dark.css` | Dark panels, menus, modals and notifications (themes with `"dark": true`: Midnight and Synthwave) |
 | `shared/icons/` | Lucide icons, inlined into the bundle |
-| `themes/<id>/theme.json` | Name, picker colours, `dark`, `base` (`false` leaves out `shared/base.css`), and the description in each language. The folder name is the theme id |
+| `themes/<id>/theme.json` | Name, picker colours, `dark`, `base` (`false` leaves out `shared/base.css`), `followsDarkMode` (the theme follows the native dark mode of 4.1), and the description in each language. The folder name is the theme id |
 | `themes/<id>/theme.css` | The theme: palette (`:root` variables) and its own look |
 | `themes/<id>/scene.svg` | Background illustration (Cozy, Kids, Synthwave). Replace it with any image and rebuild |
 | `versions/<id>/<version>/` | Stylesheets frozen for older BigBlueButton versions |

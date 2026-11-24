@@ -61,9 +61,11 @@
   color-scheme: dark;
 }
 
-/* No theme and the client's dark mode on: the client's dark palette
-   (palette.js: colorOverlaysDarkTheme, colorTextDarkTheme, colorPrimaryDarkTheme) */
-html[data-darkreader-scheme="dark"] .bbbtp-dialog[data-scheme="none"] {
+/* No theme (or one that follows the dark mode) and the client's dark mode on:
+   the client's dark palette (palette.js: colorOverlaysDarkTheme,
+   colorTextDarkTheme, colorPrimaryDarkTheme). DarkReader in 4.0, data-theme in 4.1 */
+html[data-darkreader-scheme="dark"] .bbbtp-dialog[data-scheme="none"],
+html[data-theme="dark"] .bbbtp-dialog[data-scheme="none"] {
   --bbbtp-bg: var(--color-overlays-dark-theme, #2d2f38);
   --bbbtp-text: var(--color-text-dark-theme, #fff);
   --bbbtp-accent: var(--color-primary-dark-theme, #0f70d7);

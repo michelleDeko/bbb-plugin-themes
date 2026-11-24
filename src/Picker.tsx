@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
+import { isNativeDarkModeOn } from './darkmode';
 import { Lang, Strings } from './i18n';
 import { NONE, NONE_COLORS, THEMES, Theme } from './themes';
 
@@ -70,9 +71,12 @@ export default function Picker({ themes, active, darkMode, lang, t, onPick, onCl
       description: theme.description[lang] || theme.description.en || '',
     })),
   ];
-  // The dialog follows the active theme; with none, the client's look (dark mode or not, see picker.css)
+  // The dialog follows the active theme; with none, or a theme that follows the
+  // native dark mode, the client's look (dark mode or not, see picker.css)
   const theme = themes.find(({ id }) => id === active);
-  const scheme = theme ? (theme.dark ? 'dark' : 'light') : 'none';
+  const follows = !!theme?.followsDarkMode && isNativeDarkModeOn();
+  let scheme = 'none';
+  if (theme && !follows) scheme = theme.dark ? 'dark' : 'light';
 
   // The dialog's own layer at the end of <body>. React listens for the dialog's
   // events there (portal container), and keys typed in the dialog stop there, so
@@ -159,7 +163,7 @@ export default function Picker({ themes, active, darkMode, lang, t, onPick, onCl
           </button>
         </div>
         <p id="bbbtp-intro" className="bbbtp-intro">{t.intro}</p>
-        <p id="bbbtp-note" className="bbbtp-note" role="status">{darkMode && theme ? t.darkModePaused : ''}</p>
+        <p id="bbbtp-note" className="bbbtp-note" role="status">{darkMode && theme && !follows ? t.darkModePaused : ''}</p>
         <fieldset className="bbbtp-fieldset">
           <legend className="bbbtp-sr-only">{t.legend}</legend>
           <div className="bbbtp-options">

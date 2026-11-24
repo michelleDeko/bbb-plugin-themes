@@ -6,7 +6,7 @@ import {
 } from 'bigbluebutton-html-plugin-sdk';
 import { STRINGS, pickLang } from './i18n';
 import { appliedTheme, applyTheme, readChoice, saveChoice } from './apply';
-import { isDarkModeOn } from './darkmode';
+import { isDarkModeOn, isNativeDarkModeOn } from './darkmode';
 import { effectiveTheme, readConfig } from './settings';
 import { NONE, findTheme } from './themes';
 import Picker from './Picker';
@@ -67,14 +67,16 @@ export default function Plugin({ uuid }: { uuid: string }): React.ReactElement |
 
   // The client's dark mode. Turning it on while a light theme is active asks for
   // a dark client: back to 'none', so the dark mode shows. A dark theme stays
-  // (and the dark mode stays paused), as does any theme the user may not change.
+  // (and the dark mode stays paused), as does any theme the user may not change,
+  // and one that follows the native dark mode of 4.1.
   const [darkMode, setDarkMode] = React.useState(isDarkModeOn);
   React.useEffect(() => {
     const onChange = (event: Event) => {
       const enabled = !!(event as CustomEvent<{ enabled?: boolean }>).detail?.enabled;
       setDarkMode(enabled);
       const theme = findTheme(appliedTheme());
-      if (enabled && ready && config.allowUserChoice && theme && !theme.dark) pick(NONE);
+      const follows = !!theme?.followsDarkMode && isNativeDarkModeOn();
+      if (enabled && ready && config.allowUserChoice && theme && !theme.dark && !follows) pick(NONE);
     };
     window.addEventListener('darkmodechange', onChange);
     return () => window.removeEventListener('darkmodechange', onChange);

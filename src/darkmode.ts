@@ -15,7 +15,12 @@ const DARKREADER_STYLE = 'style.darkreader';
 const isDarkReaderStyle = (node: Node): node is Element => (node as Element).localName === 'style'
   && (node as Element).classList.contains('darkreader');
 
-export const isDarkModeOn = (): boolean => document.documentElement.hasAttribute('data-darkreader-mode');
+// BigBlueButton 4.1 has a native dark mode instead: data-theme="dark" on <html>
+// switches the client's color variables. The plugin does not pause it.
+export const isNativeDarkModeOn = (): boolean => document.documentElement.getAttribute('data-theme') === 'dark';
+
+export const isDarkModeOn = (): boolean => document.documentElement.hasAttribute('data-darkreader-mode')
+  || isNativeDarkModeOn();
 
 function switchOff(style: Element): void {
   const { sheet } = style as HTMLStyleElement;

@@ -1,17 +1,77 @@
 /*
  * Parts of the client that follow the dark mode setting on their own, in
  * JavaScript, instead of through the dark mode stylesheets the plugin pauses
- * (darkmode.ts): the shared notes editor (BlockNote), the whiteboard's toolbar
- * and menus (tldraw) and the emoji picker. While a theme pauses the dark mode
- * they take their light colors again here. The values are the libraries' own
- * light ones (BlockNote 0.56 with Mantine 8, @bigbluebutton/tldraw
- * 2.0.0-alpha.36, emoji-mart 5).
+ * (darkmode.ts): the menus, popovers, fields and switches (MUI), the shared
+ * notes editor (BlockNote), the whiteboard's toolbar and menus (tldraw) and
+ * the emoji picker. While a theme pauses the dark mode they take their light
+ * colors again here. The values are the libraries' own light ones (MUI 5,
+ * BlockNote 0.56 with Mantine 8, @bigbluebutton/tldraw 2.0.0-alpha.36,
+ * emoji-mart 5). The dark themes paint their menus with !important, so these
+ * rules, without it, leave them alone.
  *
  * darkmode.ts marks <html> with data-bbb-plugin-themes-darkreader: "paused"
  * while a theme pauses the dark mode, "kept" while a theme follows the native
  * dark mode of BigBlueButton 4.1 (Classic). Kept without that native dark mode
  * (4.0, where every theme pauses DarkReader) counts as paused.
  */
+
+/*
+ * Menus, popovers, fields and switches: BigBlueButton 4.1 hands MUI a dark
+ * theme while the dark mode setting is on (imports/ui/services/theme/mui.ts),
+ * and MUI writes its colors into its own classes, out of reach of the dark
+ * mode stylesheet. Here are MUI's light ones; the menu surface is the client's
+ * own (--dropdown-bg).
+ */
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiPaper-root {
+  background-color: var(--dropdown-bg, var(--color-white, #fff));
+  background-image: none;
+  color: rgba(0, 0, 0, .87);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiListItemIcon-root {
+  color: rgba(0, 0, 0, .54);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiDivider-root {
+  border-color: rgba(0, 0, 0, .12);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) :is(.MuiInputBase-root, .MuiInputBase-input, .MuiSelect-select) {
+  color: rgba(0, 0, 0, .87);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) :is(.MuiFormLabel-root, .MuiInputLabel-root) {
+  color: rgba(0, 0, 0, .6);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiInput-underline::before {
+  border-bottom-color: rgba(0, 0, 0, .42);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, .23);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) :is(.MuiSelect-icon, .MuiNativeSelect-icon) {
+  color: rgba(0, 0, 0, .54);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) :is(.MuiCheckbox-root, .MuiRadio-root):not(.Mui-checked) {
+  color: rgba(0, 0, 0, .6);
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiSwitch-switchBase:not(.Mui-checked) {
+  color: #fff;
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiSwitch-switchBase:not(.Mui-checked) + .MuiSwitch-track {
+  background-color: #000;
+  opacity: .38;
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .MuiSkeleton-root {
+  background-color: rgba(0, 0, 0, .11);
+}
 
 /* Shared notes: BlockNote's own variables, then Mantine's for its toolbars and menus */
 :root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .bn-root[data-color-scheme="dark"] {

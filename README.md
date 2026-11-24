@@ -3,6 +3,7 @@
 One plugin for the BigBlueButton 4.0 HTML5 client with eight themes and a theme picker, so every participant can choose their own look. Each theme changes colours, shapes, fonts and the background. All but [Classic](#classic), which brings back the look of BigBlueButton 3.0, share the same layout fixes:
 
 - full-height icon bar and sidebar, including the second panel of the multi-functional mode (`multiFunctionalMode`)
+- an icon bar that fits the window instead of scrolling: its items get smaller on short screens, and below 860px of height the names under the icons go
 - [Lucide](https://lucide.dev) icons
 - round avatars with a moderator crown and a presenter badge
 - cameras that fill their tile, with a green ring on whoever speaks

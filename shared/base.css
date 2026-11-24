@@ -120,19 +120,25 @@ body,
  * bar, with wide gaps inside each one, so a handful of icons filled it. On
  * screens with a mouse the groups sit together at the top, close to each
  * other, and only the last one (dashboard, settings) stays at the bottom.
+ * The groups only hold their items (display: contents), so every item is in
+ * the list itself and can share its height (see "The bar fits the window").
  */
 @media (pointer: fine) and (min-width: 768px) {
   .bbb-navigation__list {
     justify-content: flex-start !important;
-    gap: 10px !important;
-  }
-
-  .bbb-navigation__list > div {
     gap: 0 !important;
   }
 
-  .bbb-navigation__list > div:last-child {
-    margin-top: auto;
+  .bbb-navigation__list > div {
+    display: contents;
+  }
+
+  .bbb-navigation__list > .bbb-navigation__separator {
+    margin-block: 10px !important;
+  }
+
+  .bbb-navigation .bbb-navigation__list > div:last-child > :first-child {
+    margin-top: auto !important;
   }
 
   .bbb-navigation__list > hr:last-of-type {
@@ -216,6 +222,31 @@ body,
   .bbb-navigation__item[data-test="learningDashboardSidebarButton"]:lang(de)::before { content: "Berichte"; }
   .bbb-navigation__item[data-test="settingsSidebarButton"]:lang(de)::before { content: "Optionen"; }
   .bbb-navigation__item:has(.icon-bbb-rooms):lang(de)::before { content: "Räume"; }
+}
+
+/*
+ * The bar fits the window instead of scrolling: plugins add items to it, and
+ * a dozen of them with their names took more than 1000px. Each item may
+ * shrink from its full size down to 30px. On short windows the names under
+ * the icons go (the tooltip still has them), so the icons keep their room.
+ * The list still scrolls as a last resort, when even that is too tall.
+ */
+@media (pointer: fine) and (min-width: 768px) {
+  .bbb-navigation .bbb-navigation__item {
+    flex: 0 1 var(--theme-nav-button);
+    height: auto !important;
+    min-height: 30px;
+  }
+}
+
+@media (pointer: fine) and (min-width: 768px) and (max-height: 860px) {
+  .bbb-navigation .bbb-navigation__item {
+    margin-bottom: 4px !important;
+  }
+
+  .bbb-navigation__item::before {
+    display: none;
+  }
 }
 
 /* The icon grows a little under the pointer */

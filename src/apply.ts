@@ -62,5 +62,5 @@ export function applyTheme(id: string): void {
     theme?.sheets.forEach((css) => addStyle(css, THEME_ATTR, theme.id));
     save(APPLIED_KEY, next);
   }
-  pauseDarkMode(!!theme);
+  pauseDarkMode(!!theme, !!theme?.followsDarkMode);
 }

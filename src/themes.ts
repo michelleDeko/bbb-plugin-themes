@@ -16,7 +16,8 @@ export interface Theme {
   // false: the theme starts from the client's own look, without shared/base.css
   base?: boolean;
   // true: the theme has no light-only colors and follows the client's native dark
-  // mode (BigBlueButton 4.1). The DarkReader dark mode of 4.0 still pauses.
+  // mode (BigBlueButton 4.1), which the plugin otherwise pauses. The DarkReader
+  // dark mode of 4.0 still pauses.
   followsDarkMode?: boolean;
   colors: ThemeColors;
   description: Record<string, string>;

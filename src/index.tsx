@@ -1,14 +1,16 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import pickerCss from './picker.css';
+import pausedDarkCss from './paused-dark.css';
 import { applyTheme, injectPickerStyles, readApplied } from './apply';
 import Plugin from './Plugin';
 import { swatchCss } from './Picker';
 
-// Right away, before React mounts: the picker styles, and the theme applied on
+// Right away, before React mounts: the picker styles (with the light colors for
+// the parts that follow the dark mode on their own), and the theme applied on
 // the last visit, so the page does not flash the plain look while the plugin
 // settings load. Plugin then switches to the right theme once they are in.
-injectPickerStyles(`${pickerCss}\n${swatchCss()}`);
+injectPickerStyles(`${pickerCss}\n${pausedDarkCss}\n${swatchCss()}`);
 applyTheme(readApplied());
 
 const uuid = document.currentScript?.getAttribute('uuid') || 'root';

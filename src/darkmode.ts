@@ -12,8 +12,13 @@
 // off the same way, unless the theme follows the dark mode (Classic). The
 // attribute stays, so the client's own setting and toggle keep working.
 //
+// A few parts follow the dark mode setting on their own, in JavaScript (the
+// notes editor, the whiteboard toolbar, the emoji picker); paused-dark.css
+// gives them their light colors back, keyed on the state below.
+//
 // The wanted state lives on <html>, not in a variable, so that a second copy
-// of the plugin (see index.tsx) and this one agree.
+// of the plugin (see index.tsx) and this one agree: "paused", or "kept" for a
+// theme that keeps the native dark mode.
 const STATE_ATTR = 'data-bbb-plugin-themes-darkreader';
 const PAUSED_ATTR = 'data-bbb-plugin-themes-paused'; // on the dark mode styles we switched off
 const NATIVE_DARK_SHEET = 'link[rel="stylesheet"][href*="theme-dark"]';
@@ -73,7 +78,7 @@ const watcher = new MutationObserver((records) => {
 export function pauseDarkMode(paused: boolean, keepNative = false): void {
   const html = document.documentElement;
   if (paused) {
-    html.setAttribute(STATE_ATTR, 'paused');
+    html.setAttribute(STATE_ATTR, keepNative ? 'kept' : 'paused');
     document.querySelectorAll(DARKREADER_STYLE).forEach(switchOff);
     if (keepNative) document.querySelectorAll(`${NATIVE_DARK_SHEET}[${PAUSED_ATTR}]`).forEach(switchOn);
     else document.querySelectorAll(NATIVE_DARK_SHEET).forEach(switchOff);

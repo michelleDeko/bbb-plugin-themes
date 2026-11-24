@@ -1,0 +1,122 @@
+/*
+ * Parts of the client that follow the dark mode setting on their own, in
+ * JavaScript, instead of through the dark mode stylesheets the plugin pauses
+ * (darkmode.ts): the shared notes editor (BlockNote), the whiteboard's toolbar
+ * and menus (tldraw) and the emoji picker. While a theme pauses the dark mode
+ * they take their light colors again here. The values are the libraries' own
+ * light ones (BlockNote 0.56 with Mantine 8, @bigbluebutton/tldraw
+ * 2.0.0-alpha.36, emoji-mart 5).
+ *
+ * darkmode.ts marks <html> with data-bbb-plugin-themes-darkreader: "paused"
+ * while a theme pauses the dark mode, "kept" while a theme follows the native
+ * dark mode of BigBlueButton 4.1 (Classic). Kept without that native dark mode
+ * (4.0, where every theme pauses DarkReader) counts as paused.
+ */
+
+/* Shared notes: BlockNote's own variables, then Mantine's for its toolbars and menus */
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .bn-root[data-color-scheme="dark"] {
+  --bn-colors-editor-text: #3f3f3f;
+  --bn-colors-editor-background: #ffffff;
+  --bn-colors-menu-text: #3f3f3f;
+  --bn-colors-menu-background: #ffffff;
+  --bn-colors-tooltip-text: #3f3f3f;
+  --bn-colors-tooltip-background: #efefef;
+  --bn-colors-hovered-text: #3f3f3f;
+  --bn-colors-hovered-background: #efefef;
+  --bn-colors-selected-text: #ffffff;
+  --bn-colors-selected-background: #3f3f3f;
+  --bn-colors-disabled-text: #afafaf;
+  --bn-colors-disabled-background: #efefef;
+  --bn-colors-shadow: #cfcfcf;
+  --bn-colors-border: #efefef;
+  --bn-colors-side-menu: #cfcfcf;
+  --bn-colors-highlights-gray-text: #9b9a97;
+  --bn-colors-highlights-gray-background: #ebeced;
+  --bn-colors-highlights-brown-text: #64473a;
+  --bn-colors-highlights-brown-background: #e9e5e3;
+  --bn-colors-highlights-red-text: #e03e3e;
+  --bn-colors-highlights-red-background: #fbe4e4;
+  --bn-colors-highlights-orange-text: #d9730d;
+  --bn-colors-highlights-orange-background: #f6e9d9;
+  --bn-colors-highlights-yellow-text: #dfab01;
+  --bn-colors-highlights-yellow-background: #fbf3db;
+  --bn-colors-highlights-green-text: #4d6461;
+  --bn-colors-highlights-green-background: #ddedea;
+  --bn-colors-highlights-blue-text: #0b6e99;
+  --bn-colors-highlights-blue-background: #ddebf1;
+  --bn-colors-highlights-purple-text: #6940a5;
+  --bn-colors-highlights-purple-background: #eae4f2;
+  --bn-colors-highlights-pink-text: #ad1a72;
+  --bn-colors-highlights-pink-background: #f4dfeb;
+  color-scheme: light;
+}
+
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .bn-mantine[data-mantine-color-scheme="dark"] {
+  --mantine-color-scheme: light;
+  --mantine-color-bright: var(--mantine-color-black);
+  --mantine-color-text: #000;
+  --mantine-color-body: #fff;
+  --mantine-color-error: var(--mantine-color-red-6);
+  --mantine-color-placeholder: var(--mantine-color-gray-5);
+  --mantine-color-anchor: var(--mantine-color-blue-6);
+  --mantine-color-default: var(--mantine-color-white);
+  --mantine-color-default-hover: var(--mantine-color-gray-0);
+  --mantine-color-default-color: var(--mantine-color-black);
+  --mantine-color-default-border: var(--mantine-color-gray-4);
+  --mantine-color-dimmed: var(--mantine-color-gray-6);
+  --mantine-color-disabled: var(--mantine-color-gray-2);
+  --mantine-color-disabled-color: var(--mantine-color-gray-5);
+  --mantine-color-disabled-border: var(--mantine-color-gray-3);
+  color-scheme: light;
+}
+
+/* Whiteboard: tldraw's light theme on its dark class */
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) .tl-theme__dark {
+  --color-accent: #e64a4a;
+  --color-background: rgb(249, 250, 251);
+  --color-brush-fill: rgba(144, 144, 144, .102);
+  --color-brush-stroke: rgba(144, 144, 144, .251);
+  --color-grid: rgb(109, 109, 109);
+  --color-low: hsl(204, 16%, 94%);
+  --color-low-border: hsl(204, 16%, 92%);
+  --color-culled: rgb(235, 238, 240);
+  --color-muted-none: rgba(0, 0, 0, 0);
+  --color-muted-0: rgba(0, 0, 0, .02);
+  --color-muted-1: rgba(0, 0, 0, .1);
+  --color-muted-2: rgba(0, 0, 0, .042);
+  --color-hint: rgba(0, 0, 0, .055);
+  --color-overlay: rgba(0, 0, 0, .2);
+  --color-divider: #e8e8e8;
+  --color-panel-contrast: #ffffff;
+  --color-panel-overlay: rgba(255, 255, 255, .82);
+  --color-panel: #fdfdfd;
+  --color-focus: #004094;
+  --color-selected: #2f80ed;
+  --color-selected-contrast: #ffffff;
+  --color-selection-fill: #1e90ff06;
+  --color-selection-stroke: #2f80ed;
+  --color-text-0: #1d1d1d;
+  --color-text-1: #2d2d2d;
+  --color-text-3: #a4a5a7;
+  --color-text-shadow: #ffffff;
+  --color-primary: #2f80ed;
+  --color-warn: #d10b0b;
+  --color-text: #000000;
+  --color-laser: #ff0000;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .25), 0 1px 3px rgba(0, 0, 0, .09);
+  --shadow-2: 0 0 2px rgba(0, 0, 0, .16), 0 2px 3px rgba(0, 0, 0, .24), 0 2px 6px rgba(0, 0, 0, .1), inset 0 0 0 1px var(--color-panel-contrast);
+  --shadow-3: 0 1px 2px rgba(0, 0, 0, .28), 0 2px 6px rgba(0, 0, 0, .14), inset 0 0 0 1px var(--color-panel-contrast);
+  --shadow-4: 0 0 3px rgba(0, 0, 0, .19), 0 5px 4px rgba(0, 0, 0, .16), 0 2px 16px rgba(0, 0, 0, .06), inset 0 0 0 1px var(--color-panel-contrast);
+  color-scheme: light;
+}
+
+/* Emoji picker (chat and reactions): emoji-mart's public variables, which
+   reach into its shadow root */
+:root:is([data-bbb-plugin-themes-darkreader="paused"], [data-bbb-plugin-themes-darkreader="kept"]:not([data-theme="dark"])) em-emoji-picker {
+  --rgb-color: 34, 36, 39;
+  --rgb-accent: 34, 102, 237;
+  --rgb-background: 255, 255, 255;
+  --rgb-input: 255, 255, 255;
+  --color-border: rgba(0, 0, 0, .05);
+  --color-border-over: rgba(0, 0, 0, .1);
+}

@@ -39,7 +39,7 @@ Who sees what: a user who picked a theme sees that one, as long as the server st
 
 BigBlueButton 4.1 draws its dark mode natively: `data-theme="dark"` on the page switches the client's colour variables, all from one stylesheet, `stylesheets/theme-dark.css`. The plugin pauses it the same way, by switching that stylesheet off while a theme is active; the dark mode setting and its switch keep working. [Classic](#classic) is the exception: it reads those variables, so it follows the dark mode and stays when the dark mode is turned on.
 
-A few parts of the client switch to their dark variant on their own, without the dark mode's stylesheets, so they stay dark while a theme pauses the dark mode: the custom logo (when the server has a separate dark logo), the emoji picker in the chat and the reactions, a few labels and icons, and on phones the colour of the browser bar.
+A few parts of the client switch to their dark variant on their own, in JavaScript, without the dark mode's stylesheets. The plugin gives the shared notes editor, the whiteboard's toolbar and menus and the emoji picker their light colours back while a theme pauses the dark mode (`src/paused-dark.css`). A few others stay dark: the custom logo (when the server has a separate dark logo), a few labels and icons, and on phones the colour of the browser bar. The reactions bar is dark in both modes; that is the client's own design.
 
 ## Try it without installing
 
